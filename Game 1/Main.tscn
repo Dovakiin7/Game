@@ -1,0 +1,192 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://OpenSans-Regular.ttf" type="DynamicFontData" id=1]
+[ext_resource path="res://ProgressBar.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Upgrades.tscn" type="PackedScene" id=4]
+
+[sub_resource type="GDScript" id=2]
+script/source = "extends Node
+
+var Count = 0
+var max_count = 5
+var Money = 400
+var Buy = 10
+var Base = 5
+var Upgrade = 300
+
+func _on_Timer_timeout():
+	Money += 1
+	$HBoxContainer/MMoney.text = \"$\" + str(Money)
+
+func _on_BuyPrice_pressed():
+	if Money >= Buy:
+		Money -= Buy
+		Count += 1
+		Buy += 10
+		var Upgraded = Base + 5
+		if $CanvasLayer/GridContainer/UP1.value == 100:
+			$GridContainer/UP1.value = -10
+		$CanvasLayer/GridContainer/UP1.value += Base
+		$CanvasLayer/GridContainer/UP1/Panel/Upgrade.text = \"Upgrades:\" + str(Count)
+		$CanvasLayer/GridContainer/UP1/BuyPrice.text = \"Buy:$\" + str(Buy)
+		$Timer.wait_time -= 0.1
+
+
+func _on_Upgrades2_pressed():
+	if Money >= Upgrade:
+		Money -= Upgrade
+		$CanvasLayer2/BuyingUpgrades/Control/Upgrades2.queue_free()
+"
+
+[sub_resource type="DynamicFont" id=1]
+size = 55
+font_data = ExtResource( 1 )
+
+[node name="Control" type="Node"]
+script = SubResource( 2 )
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 169.0
+margin_right = 187.0
+margin_bottom = 23.0
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="MMoney" type="Label" parent="HBoxContainer"]
+margin_right = 62.0
+margin_bottom = 76.0
+custom_fonts/font = SubResource( 1 )
+text = "$0"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
+
+[node name="Upgrades" type="GridContainer" parent="CanvasLayer"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -640.0
+margin_top = -600.0
+margin_right = 640.0
+mouse_filter = 0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="UP1" parent="CanvasLayer/Upgrades" instance=ExtResource( 2 )]
+margin_left = 169.0
+margin_top = 63.0
+margin_right = 469.0
+margin_bottom = 133.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="BuyPrice" parent="CanvasLayer/Upgrades/UP1" index="0"]
+focus_mode = 1
+mouse_filter = 1
+
+[node name="Up2" parent="CanvasLayer/Upgrades" instance=ExtResource( 2 )]
+margin_left = 811.0
+margin_top = 63.0
+margin_right = 1111.0
+margin_bottom = 133.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Up3" parent="CanvasLayer/Upgrades" instance=ExtResource( 2 )]
+margin_left = 169.0
+margin_top = 264.0
+margin_right = 469.0
+margin_bottom = 334.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Up4" parent="CanvasLayer/Upgrades" instance=ExtResource( 2 )]
+margin_left = 811.0
+margin_top = 264.0
+margin_right = 1111.0
+margin_bottom = 334.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Up5" parent="CanvasLayer/Upgrades" instance=ExtResource( 2 )]
+margin_left = 169.0
+margin_top = 465.0
+margin_right = 469.0
+margin_bottom = 535.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="Up6" parent="CanvasLayer/Upgrades" instance=ExtResource( 2 )]
+margin_left = 811.0
+margin_top = 465.0
+margin_right = 1111.0
+margin_bottom = 535.0
+size_flags_horizontal = 6
+size_flags_vertical = 6
+
+[node name="CanvasLayer2" type="CanvasLayer" parent="."]
+
+[node name="BuyingUpgrades" type="GridContainer" parent="CanvasLayer2"]
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -640.0
+margin_top = -600.0
+margin_right = 640.0
+columns = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Control" type="Control" parent="CanvasLayer2/BuyingUpgrades"]
+margin_right = 638.0
+margin_bottom = 197.0
+mouse_filter = 2
+
+[node name="Upgrades2" parent="CanvasLayer2/BuyingUpgrades/Control" instance=ExtResource( 4 )]
+margin_left = 169.094
+margin_top = 43.5186
+margin_right = 469.094
+margin_bottom = 153.519
+mouse_filter = 1
+text = "Buy-Upgrade:$300"
+
+[node name="Upgrades" parent="CanvasLayer2/BuyingUpgrades" instance=ExtResource( 4 )]
+margin_left = 811.0
+margin_top = 43.0
+margin_right = 1111.0
+margin_bottom = 153.0
+
+[node name="Upgrades3" parent="CanvasLayer2/BuyingUpgrades" instance=ExtResource( 4 )]
+margin_left = 169.0
+margin_top = 244.0
+margin_right = 469.0
+margin_bottom = 354.0
+
+[node name="Upgrades4" parent="CanvasLayer2/BuyingUpgrades" instance=ExtResource( 4 )]
+margin_left = 811.0
+margin_top = 244.0
+margin_right = 1111.0
+margin_bottom = 354.0
+
+[node name="Upgrades5" parent="CanvasLayer2/BuyingUpgrades" instance=ExtResource( 4 )]
+margin_left = 169.0
+margin_top = 445.0
+margin_right = 469.0
+margin_bottom = 555.0
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+autostart = true
+[connection signal="pressed" from="CanvasLayer/Upgrades/UP1/BuyPrice" to="." method="_on_BuyPrice_pressed"]
+[connection signal="pressed" from="CanvasLayer2/BuyingUpgrades/Control/Upgrades2" to="." method="_on_Upgrades2_pressed"]
+[connection signal="timeout" from="Timer" to="." method="_on_Timer_timeout"]
+
+[editable path="CanvasLayer/Upgrades/UP1"]
